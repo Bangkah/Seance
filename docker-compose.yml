@@ -1,0 +1,22 @@
+services:
+  seance:
+    build: .
+    image: seance:dev
+    working_dir: /work
+    entrypoint: ["python", "-m", "seance"]
+    environment:
+      SEANCE_IN_DOCKER: "1"
+      SEANCE_OLLAMA_URL: http://ollama:11434
+      PYTHONPATH: /work/src
+    volumes:
+      - .:/work
+    depends_on:
+      - ollama
+
+  ollama:
+    image: ollama/ollama
+    volumes:
+      - ollama:/root/.ollama
+
+volumes:
+  ollama:
