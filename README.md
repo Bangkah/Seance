@@ -1,5 +1,7 @@
 # Seance
 
+[![ci](https://github.com/Bangkah/Seance/actions/workflows/ci.yml/badge.svg)](https://github.com/Bangkah/Seance/actions/workflows/ci.yml)
+
 Talk to a repository that has been dead for years.
 
 Seance is a local command-line tool that reads the git history of an abandoned
