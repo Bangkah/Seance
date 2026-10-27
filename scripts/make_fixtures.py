@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 GIT = "git"
@@ -178,23 +179,15 @@ def hostile(root: Path, canary: Path) -> Path:
     _write(repo, "TODO.txt", "todo: rewrite parser\n")
     _commit(repo, "\x1b[31mbroken build\x1b[0m and abandoned work", "2017-02-01T00:00:00+00:00")
 
-    if os.name == "nt":
-        script = repo / "canary.cmd"
-        script.write_text(f'@echo off\r\necho hit >> "{canary}"\r\n', encoding="ascii", newline="")
-        command = str(script)
-    else:
-        script = repo / "canary.sh"
-        script.write_text(f"#!/bin/sh\ntouch '{canary}'\n", encoding="ascii", newline="\n")
-        script.chmod(0o755)
-        command = str(script)
-
-    config = repo / ".git" / "config"
-    existing = config.read_text(encoding="utf-8")
-    config.write_text(
-        existing + "\n[core]\n\tfsmonitor = " + command + "\n\tpager = " + command + "\n"
-        "[diff]\n\texternal = " + command + "\n",
-        encoding="utf-8",
+    python = sys.executable.replace("\\", "/")
+    script = repo / "canary.py"
+    script.write_text(
+        f"import pathlib\n\npathlib.Path({str(canary)!r}).write_text('hit\\n', encoding='ascii')\n",
+        encoding="ascii",
     )
+    command = f'"{python}" "{str(script).replace(chr(92), "/")}"'
+    for key in ("core.fsmonitor", "core.pager", "diff.external"):
+        _git(repo, "config", key, command)
     return repo
 
 
