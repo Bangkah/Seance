@@ -9,8 +9,10 @@ project, extracts evidence that can be checked, and lets a local open-weight mod
 speak about that evidence. The model writes prose. The code decides what is true.
 
 Built for **Hacktoberfest 2026, Open-Source AI Challenge Week 4 — "Ghost in the
-Machine"**. The project was started on 27 October 2026 and is new code; nothing
-was carried over from an earlier repository.
+Machine"**. The repository was created on 27 October 2026 for this challenge.
+Some design patterns come from TidyMind, an earlier project of mine (a
+loopback-only model client, bounded retries with varied sampling, terminal-safe
+output); the code here was written for this challenge.
 
 ## What it does
 
