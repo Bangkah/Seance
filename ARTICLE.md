@@ -4,7 +4,7 @@ published: false
 tags: devchallenge, hf26challenge
 ---
 
-*This is a submission for the [Hacktoberfest Open-Source AI Challenge Week 4: Ghost in the Machine](https://dev.to/challenges)*
+*This is a submission for the [Hacktoberfest Open-Source AI Challenge Week 4: Ghost in the Machine](https://dev.to/challenges/hacktoberfest-week4-2026-10-26)*
 
 ## What I Built
 
@@ -125,16 +125,26 @@ Windows 11 laptop, Docker Desktop, Python 3.12.16, git 2.47.3 in the image, Olla
 
 The two-thousand-commit case is not slow because the evidence pack is budgeted by characters, not by commit count: the model sees a bounded prompt and the git work is the only thing that scales.
 
+### What I would do next
+
+- A semantic check for the four failures above: whether a claim's subject matches the cited commit's subject, which is a much narrower question than "is this true".
+- Deterministic handling of `0 months` repositories: refuse with "this repository is not dead yet" instead of producing a low-confidence hypothesis.
+- More manifests and a real dependency analysis, which needs parsing rather than file names.
+
 ## Why Does Open Innovation Matter?
 
 A repository's history is not always safe to send to someone else's server. Old commits can contain client names, internal paths, and secrets that were once committed and later removed. With an open-weight model running on my own machine, the history is read by a bare clone in a temporary directory and the only network connection the tool makes is to the Ollama endpoint, which is loopback unless you explicitly pass `--allow-container`. I did not run it with the network disconnected, so I am not claiming that.
 
 Running the model myself also made the verification loop cheap. The retry logic and the 30-claim audit needed many runs, and none of them cost anything or hit a quota. The model is a command-line option on `report` and `ask` (`--model`), so a different local model can be tried without changing the code, though I only evaluated `qwen3:4b`.
 
-## What I Would Do Next
+## The Spirit of It
 
-- A semantic check for the four failures above: whether a claim's subject matches the cited commit's subject, which is a much narrower question than "is this true".
-- Deterministic handling of `0 months` repositories: refuse with "this repository is not dead yet" instead of producing a low-confidence hypothesis.
-- More manifests and a real dependency analysis, which needs parsing rather than file names.
+The moment that landed was not a report. It was a refusal.
+
+I asked an abandoned project why its author stopped working on it. It answered:
+
+> I don't remember why the author stopped working on it. The only evidence I have is that Jofi was the sole author in history.
+
+It had every ingredient for a story like the ones I had been half-expecting all week: a lone author, six months of silence, a last commit that only adds a funding file. It could have said burnout, or money, or a rewrite. Instead it said it did not know, and showed me the one fact it did have. That is the ghost I wanted: one that refuses to invent the ending.
 
 *Model output is generated from repository text and may be wrong. Verify before trusting.*
